@@ -29,13 +29,13 @@ $ docker run -d -p 8080:8080 bitcup/boggle:1
 ```
 Access app on `http://localhost:8080/`
 
-#### Resources
+### Resources
 The following resources contributed ideas and/or code to the creation of this app:
 * [Boggle Solver](http://www.geekviewpoint.com/java/boggle/solver) that uses a trie-based data structure for validating words against a dictionary, and a depth-first-search for word generation from the board.
 * [English dictionary words](https://norvig.com/ngrams/) from the YAWL (Yet Another Word List) word list containing 263,533 words.
 * [Spring Boot with Ajax](https://www.mkyong.com/spring-boot/spring-boot-ajax-example/) as an example of how to use jQuery to send a HTML form request to a Spring REST API and return a JSON response.   
 
-#### To Dos
+### To Dos
 To keep development time under the allotted limit, the following areas were not fully explored/developed:
 * Test coverage: Only the `Solver` is covered by a unit test and the focus is on correctness.  Tests for performance or scalability are not included.
 * Input validation: The app expects the board data to be input in a specific format, such as `GIZ\nUEK\nQSE` for a 3x3 grid.  Using any delimeters in between letters in the same row, or anything other than `\n` in between rows will result in an exception.    
