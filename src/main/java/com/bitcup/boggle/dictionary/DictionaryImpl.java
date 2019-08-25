@@ -1,16 +1,14 @@
 package com.bitcup.boggle.dictionary;
 
-import com.bitcup.boggle.board.Board;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -39,19 +37,7 @@ public class DictionaryImpl implements Dictionary {
     }
 
     @Override
-    public List<String> getCandidateWords(Board board, int minWordLength) {
-        Set<Character> boardLetters = board.getAllLetters();
-        return words.stream()
-                .filter(w -> w.length() >= minWordLength)
-                // exclude words that have letters NOT in the board
-                .filter(w -> {
-                    for (char c : w.toCharArray()) {
-                        if (!boardLetters.contains(c)) {
-                            return false;
-                        }
-                    }
-                    return true;
-                })
-                .collect(Collectors.toList());
+    public Set<String> getAllWords() {
+        return Collections.unmodifiableSet(words);
     }
 }
