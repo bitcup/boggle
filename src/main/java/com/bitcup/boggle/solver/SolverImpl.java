@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 
 /**
@@ -18,28 +17,25 @@ import java.util.*;
 public class SolverImpl implements Solver {
 
     private final Dictionary dictionary;
-    private Trie trie;
+    private Trie trie = null;
 
     public SolverImpl(Dictionary dictionary) {
         this.dictionary = dictionary;
-    }
-
-    @PostConstruct
-    private void init() {
-        long start = System.currentTimeMillis();
-        trie = new Trie();
-        Set<String> dictionaryWords = dictionary.getAllWords();
-        for (String word : dictionaryWords) {
-            trie.addWord(word);
-        }
-        log.info("trie built from {} dictionary words in {} ms",
-                dictionaryWords.size(), System.currentTimeMillis() - start);
     }
 
     @Override
     public List<String> findValidWords(Board board, int minWordLength) {
         StopWatch sw = new StopWatch();
 
+        if (trie == null) {
+            Set<String> dictionaryWords = dictionary.getAllWords();
+            sw.start("building trie from " + dictionaryWords.size() + " words");
+            trie = new Trie();
+            for (String word : dictionaryWords) {
+                trie.addWord(word);
+            }
+            sw.stop();
+        }
         sw.start("search for words");
         Set<String> validWords = new HashSet<>();
         for (int row = 0; row < board.getRows(); row++) {
